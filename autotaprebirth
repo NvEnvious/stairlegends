@@ -1,0 +1,80 @@
+getgenv().autoTap = false
+getgenv().autoRebirth = false
+
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+
+
+local Window = Rayfield:CreateWindow({
+	Name = "Stair Legends by Nv",
+	LoadingTitle = "Stair Legends ",
+	LoadingSubtitle = "by Nv",
+	ConfigurationSaving = {
+		Enabled = true,
+		FolderName = Farming, -- Create a custom folder for your hub/game
+		FileName = "Big Hub"
+	},
+        Discord = {
+        	Enabled = false,
+        	Invite = "rVeGugG2", -- The Discord invite code, do not include discord.gg/
+        	RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+        },
+	
+})
+local Tab = Window:CreateTab("Farming", 4483362458)
+
+
+
+
+local Section = Tab:CreateSection("Tapping")
+local Toggle = Tab:CreateToggle({
+	Name = "Auto Tap",
+	CurrentValue = false,
+	Flag = "Auto Tap", 
+	Callback = function(Value)
+		getgenv().autoTap = Value
+        if Value then
+        doTap()
+	end
+end
+})
+
+function doTap()
+    spawn(function()
+        while getgenv().autoTap == true do
+            local args = {
+                [1] = 5
+            }
+            
+            game:GetService("ReplicatedStorage").Framework.Knit.Services.PlayerLogic.RF.Move:InvokeServer(unpack(args))
+            
+            wait()
+        end 
+    end)
+end
+
+doTap()
+
+local Section = Tab:CreateSection("Rebirth")
+local Toggle = Tab:CreateToggle({
+	Name = "Auto Rebirth",
+	CurrentValue = false,
+	Flag = "Auto Rebirth", 
+	Callback = function(Value)
+		getgenv().autoRebirth = Value
+        if Value then
+        doRebirth()
+	end
+end
+})
+
+function doRebirth()
+    spawn(function()
+        while getgenv().autoRebirth == true do
+            game:GetService("ReplicatedStorage").Framework.Knit.Services.PlayerData.RF.Rebirth:InvokeServer()
+            
+            wait()
+        end 
+    end)
+end
+
+doRebirth()
